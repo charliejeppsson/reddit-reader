@@ -1,0 +1,13 @@
+@import './styleVariables.scss';
+
+.App {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    background-color: $darkGrey;
+    min-height: 100vh;
+    text-align: center;
+  }
+}
