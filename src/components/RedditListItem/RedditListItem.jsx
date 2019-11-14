@@ -6,7 +6,7 @@ import './RedditListItem.scss';
 
 function RedditListItem({ post }) {
   const formatCreatedAt = date => {
-    const dateObject = new Date(date * 1000)
+    const dateObject = new Date(date * 1000);
     return moment(dateObject).fromNow()
   }
 
