@@ -6,17 +6,54 @@ import './RedditList.scss';
 function RedditList() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [count, setCount] = useState(0);
+  const [prevPage, setPrevPage] = useState(null);
+  const [nextPage, setNextPage] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const requestParams = {
+    count,
+    setCount,
+    currentPage,
+    setCurrentPage,
+    nextPage,
+    setNextPage,
+    prevPage,
+    setPrevPage,
+    setLoading,
+    setPosts,
+  };
 
   useEffect(() => {
-    setLoading(true);
-    getPosts({ page: 1, setPosts });
-    setLoading(false);
+    getPosts({
+      type: 'first',
+      count: 0,
+      setCount,
+      currentPage: 0,
+      setCurrentPage,
+      nextPage: null,
+      setNextPage,
+      prevPage: null,
+      setPrevPage,
+      setLoading,
+      setPosts,
+    });
   }, []);
 
   const renderListItems = () => {
     return posts.map(post => (
       <RedditListItem key={post.id} post={post} />
     ));
+  };
+
+  const handlePrevPage = (e) => {
+    e.preventDefault();
+    getPosts({ ...requestParams, type: 'prev', nextPage: null });
+  };
+
+  const handleNextPage = (e) => {
+    e.preventDefault();
+    getPosts({ ...requestParams, type: 'next', prevPage: null });
   };
 
   return (
@@ -26,13 +63,39 @@ function RedditList() {
       {
         loading ?
           <p>Fetching posts...</p> :
-          <ul className="RedditList">
-            {
-              posts.length ?
-                renderListItems() :
-                <p>No posts were found :(</p>
-            }
-          </ul>
+
+          <React.Fragment>
+            <ul className="RedditList">
+              {
+                posts.length ?
+                  renderListItems() :
+                  <p>No posts were found :(</p>
+              }
+            </ul>
+
+
+            <div className="RedditList__pagination">
+              <div>
+                {
+                  currentPage > 1 && prevPage &&
+                    <button onClick={(e) => handlePrevPage(e)}>
+                      Previous
+                    </button>
+                }
+              </div>
+
+              <p>Page: {currentPage}</p>
+
+              <div>
+                {
+                  nextPage &&
+                    <button onClick={(e) => handleNextPage(e)}>
+                      Next
+                    </button>
+                }
+              </div>
+            </div>
+          </React.Fragment>
       }
     </div>
   );
