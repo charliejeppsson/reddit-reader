@@ -11,6 +11,25 @@ function RedditList() {
   const [nextPage, setNextPage] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
 
+  useEffect(() => {
+    // Can't use requestParams since useEffect will then behave as
+    // componentDidUpdate (we want componentDidMount)
+    getPosts({
+      count: 0,
+      setCount,
+      currentPage: 0,
+      setCurrentPage,
+      nextPage: null,
+      setNextPage,
+      prevPage: null,
+      setPrevPage,
+      setLoading,
+      setPosts,
+      type: 'first',
+    });
+  }, []);
+
+
   const requestParams = {
     count,
     setCount,
@@ -23,22 +42,6 @@ function RedditList() {
     setLoading,
     setPosts,
   };
-
-  useEffect(() => {
-    getPosts({
-      type: 'first',
-      count: 0,
-      setCount,
-      currentPage: 0,
-      setCurrentPage,
-      nextPage: null,
-      setNextPage,
-      prevPage: null,
-      setPrevPage,
-      setLoading,
-      setPosts,
-    });
-  }, []);
 
   const renderListItems = () => {
     return posts.map(post => (
