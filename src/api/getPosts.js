@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-async function getPosts({
+export default async function getPosts({
   currentPage,
   setCurrentPage,
   count,
@@ -15,10 +15,8 @@ async function getPosts({
 }) {
   try {
     setLoading(true);
-    const response = await axios.get(
-      'https://www.reddit.com/r/javascript.json',
-      { params: setParams(count, prevPage, nextPage, type) }
-    );
+    const httpParams = setHttpParams({ count, prevPage, nextPage, type });
+    const response = await sendHttpRequest(httpParams);
     const filteredPosts = filterPosts(response);
     const newPosts = formatNewPosts(filteredPosts);
     setPosts(newPosts);
@@ -32,7 +30,14 @@ async function getPosts({
   }
 }
 
-function setParams(count, prevPage, nextPage, type) {
+function sendHttpRequest(httpParams) {
+  return axios.get(
+    'https://www.reddit.com/r/javascript.json',
+    { params: httpParams }
+  );
+}
+
+export function setHttpParams({ count, prevPage, nextPage, type }) {
   let params = { count, limit: 10 };
   if (type === 'next') {
     params.after = nextPage;
@@ -92,6 +97,3 @@ function updatePrevAndNext(args) {
   setPrevPage(before);
   setNextPage(after);
 }
-
-export default getPosts;
-
