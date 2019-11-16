@@ -81,19 +81,25 @@ function RedditList() {
               <div>
                 {
                   currentPage > 1 && prevPage &&
-                    <button onClick={(e) => handlePrevPage(e)}>
-                      Previous
+                    <button
+                      className="RedditList__pagination-btn"
+                      onClick={(e) => handlePrevPage(e)}
+                    >
+                      {"<"}
                     </button>
                 }
               </div>
 
-              <p>Page: {currentPage}</p>
+              <p>Page {currentPage}</p>
 
               <div>
                 {
                   nextPage &&
-                    <button onClick={(e) => handleNextPage(e)}>
-                      Next
+                    <button
+                      className="RedditList__pagination-btn"
+                      onClick={(e) => handleNextPage(e)}
+                    >
+                      {">"}
                     </button>
                 }
               </div>

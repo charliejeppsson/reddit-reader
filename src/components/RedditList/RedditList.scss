@@ -10,7 +10,20 @@
   &__pagination {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 50px;
+  }
+
+  &__pagination-btn {
+    background-color: $yellow;
+    height: 30px;
+    padding: 0 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: $boxShadow;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
   }
 }
